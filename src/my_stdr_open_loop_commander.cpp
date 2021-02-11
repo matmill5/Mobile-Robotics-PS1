@@ -28,14 +28,18 @@ int main(int argc, char **argv) {
       twist_commander.publish(twist_cmd);
       loop_timer.sleep();
     }
+    
+    // Initial move forward for 3 seconds
     twist_cmd.linear.x=speed; //command to move forward
     while(timer<time_3_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
           }
-    twist_cmd.linear.x=0.0; //stop moving forward
-    twist_cmd.angular.z=yaw_rate; //and start spinning in place
+          
+    // Spin to the left
+    twist_cmd.linear.x=0.0;
+    twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
     while(timer<time_3_sec) {
           twist_commander.publish(twist_cmd);
@@ -43,44 +47,9 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
 
-    twist_cmd.angular.z=0.0; //and stop spinning in place 
-    twist_cmd.linear.x=speed; //and move forward again
-    timer=0.0; //reset the timer
-    while(timer<time_3_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-          //Step 1 - spin to the right
-    twist_cmd.linear.x=0.0; //stop moving forward
-    twist_cmd.angular.z=-yaw_rate; //and start spinning in place
-    timer=0.0; //reset the timer
-    while(timer<time_3_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-          //Step 2 - Move forward
-    twist_cmd.angular.z=0.0; //and stop spinning in place 
-    twist_cmd.linear.x=speed; //and move forward again
-    timer=0.0; //reset the timer
-    while(timer<time_3_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-        //Step 3  - Spin clockwise
-    twist_cmd.linear.x=0.0; //stop moving forward
-    twist_cmd.angular.z=yaw_rate/2; //and start spinning in place
-    timer=0.0; //reset the timer
-    while(timer<time_3_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-          //Step 4  - Continue Forward
-    twist_cmd.angular.z=0.0;
-    twist_cmd.linear.x=speed; //stop moving forward
+    // Move forward at full speed
+    twist_cmd.angular.z=0.0; 
+    twist_cmd.linear.x=speed;
     timer=0.0; //reset the timer
     while(timer<time_3_sec) {
           twist_commander.publish(twist_cmd);
@@ -88,7 +57,47 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
           
-    //Step 4  - Continue Forward
+    // Spin to the right
+    twist_cmd.linear.x=0.0; //stop moving forward
+    twist_cmd.angular.z=-yaw_rate;
+    timer=0.0; //reset the timer
+    while(timer<time_3_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+          
+    // Move forward at full speed
+    twist_cmd.angular.z=0.0;
+    twist_cmd.linear.x=speed;
+    timer=0.0; //reset the timer
+    while(timer<time_3_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+          
+    // Spin at half speed
+    twist_cmd.linear.x=0.0;
+    twist_cmd.angular.z=yaw_rate/2;
+    timer=0.0; //reset the timer
+    while(timer<time_3_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+          
+    // Move forward at the normal speed for 3 seconds
+    twist_cmd.angular.z=0.0;
+    twist_cmd.linear.x=speed;
+    timer=0.0; //reset the timer
+    while(timer<time_3_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+          
+    // Rotate with some extra speed
     twist_cmd.angular.z=yaw_rate*1.55;
     twist_cmd.linear.x=0.0; //stop moving forward
     timer=0.0; //reset the timer
@@ -98,7 +107,7 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
           
-    //Step 4  - Continue Forward
+    // Jump forward, closing the gap with double-speed
     twist_cmd.angular.z=0.0;
     twist_cmd.linear.x=speed*2;
     timer=0.0; //reset the timer
@@ -108,7 +117,7 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
     
-    //Step 4  - Continue Forward
+    // Rotate with a negative yaw_rate
     twist_cmd.linear.x=0.0;
     twist_cmd.angular.z=-yaw_rate;
     timer=0.0; //reset the timer
@@ -118,7 +127,7 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
           
-    //Step 4  - Continue Forward
+    // Move slowly forward (significantly reduced speed)
     twist_cmd.angular.z=0.0;
     twist_cmd.linear.x=speed/3.7;
     timer=0.0; //reset the timer
@@ -128,7 +137,7 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
           
-    //Step 4  - Continue Forward
+    // Rotate into position for the next movement forward
     twist_cmd.linear.x=0.0;
     twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
@@ -138,7 +147,7 @@ int main(int argc, char **argv) {
           loop_timer.sleep();
           }
           
-    //Step 4  - Continue Forward
+    // Take a small step forward
     twist_cmd.angular.z=0.0;
     twist_cmd.linear.x=speed/1.5;
     timer=0.0; //reset the timer
@@ -147,7 +156,8 @@ int main(int argc, char **argv) {
           timer+=sample_dt;
           loop_timer.sleep();
           }
-     //Step 4  - Continue Forward
+          
+     // Rotate towards the finish line (top-left-corner)
     twist_cmd.linear.x=0.0;
     twist_cmd.angular.z=-(yaw_rate*0.92);
     timer=0.0; //reset the timer
@@ -156,7 +166,8 @@ int main(int argc, char **argv) {
           timer+=sample_dt;
           loop_timer.sleep();
           }
-    //Step 4  - Continue Forward
+          
+    // Continue to the end (top-left-corner)
     twist_cmd.linear.x=speed*3;
     twist_cmd.angular.z=0.0;
     timer=0.0; //reset the timer
