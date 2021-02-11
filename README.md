@@ -1,4 +1,4 @@
-# stdr_control
+# my_stdr_control
 An minimal, example node to illustrate control of the STDR mobile robot with open-loop commands. Extended to demonstrate how a robot might have a chance of navigating to the top-left-corner of STDR Simulator's map.
 
 ## Example usage
